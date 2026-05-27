@@ -1,4 +1,4 @@
 Author=Aeric
 Version=0.10
-CustomClassTemplates=Crud Model|CrudModel,Crud View|CrudView,Crud Web Handler|CrudWebHandler,Crud Api Handler|CrudApiHandler
+CustomClassTemplates=Crud Model|CrudModel,Crud View|CrudView,Crud Handler|CrudHandler,Crud Api Handler|CrudApiHandler
 Supported Platforms=B4J
