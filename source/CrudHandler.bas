@@ -1,4 +1,4 @@
-B4J=true
+﻿B4J=true
 Group=Handlers
 ModulesStructureVersion=1
 Type=Class
@@ -33,7 +33,7 @@ Sub Handle (req As ServletRequest, resp As ServletResponse)
 	Log($"${Method}: ${Path}"$)
 	
 	' Route URL dispatching
-	If Path = "/items" Then
+	If Path = "/" Or Path = "/items" Then
 		HandlePage
 	Else If Path = ROUTE_PREFIX & "/table" Then
 		HandleTable

@@ -1,4 +1,4 @@
-B4J=true
+﻿B4J=true
 Group=Views
 ModulesStructureVersion=1
 Type=Class
@@ -291,8 +291,8 @@ Private Sub ModalAdd As MiniHtml
 	form1.attr("hx-swap", "innerHTML")
 	
 	Dim modalHeader As MiniHtml = MH.Div.up(form1).cls("modal-header")
-	Dim h51 As MiniHtml = MH.H5.up(modalHeader).cls("modal-title").text("Add Item")
-	Dim close1 As MiniHtml = MH.Button.up(modalHeader).attr("type", "button").cls("btn-close").attr("data-bs-dismiss", "modal")
+	Dim h51 As MiniHtml = MH.H5.up(modalHeader).cls("modal-title").text("Add Item") 'ignore
+	Dim close1 As MiniHtml = MH.Button.up(modalHeader).attr("type", "button").cls("btn-close").attr("data-bs-dismiss", "modal") 'ignore
 	
 	Dim modalBody As MiniHtml = MH.Div.up(form1).cls("modal-body")
 	MH.Div.up(modalBody).attr("id", "modal-messages")

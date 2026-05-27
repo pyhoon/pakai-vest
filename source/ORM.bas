@@ -1,4 +1,4 @@
-B4J=true
+﻿B4J=true
 Group=App
 ModulesStructureVersion=1
 Type=StaticCode
@@ -145,9 +145,9 @@ Private Sub CreateDatabase
 	MDB.Create
 	
 	MDB.Columns = Array("item_code", "item_name", "item_price", "item_description")
-	MDB.Inserts = Array("ITM001", "Coffee Mug", 12.99, "A ceramic coffee mug.")
-	MDB.Inserts = Array("ITM002", "Wireless Mouse", 29.95, "Ergonomic 2.4GHz wireless mouse.")
-	MDB.Inserts = Array("ITM003", "Notebook", 4.50, "A5 ruled hardcover journal.")
+	MDB.InsertWithParams = Array("ITM001", "Coffee Mug", 12.99, "A ceramic coffee mug.")
+	MDB.InsertWithParams = Array("ITM002", "Wireless Mouse", 29.95, "Ergonomic 2.4GHz wireless mouse.")
+	MDB.InsertWithParams = Array("ITM003", "Notebook", 4.50, "A5 ruled hardcover journal.")
 	
 	Wait For (MDB.ExecuteBatchAsync) Complete (Success As Boolean)
 	If Success Then
