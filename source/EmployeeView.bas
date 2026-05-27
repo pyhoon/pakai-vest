@@ -189,7 +189,7 @@ Private Sub ContainerContent As MiniHtml
 	button1.attr("data-bs-toggle", "modal")
 	button1.attr("data-bs-target", "#modal-container")
 	MH.Icon.up(button1).cls("bi bi-plus-lg me-2")
-	button1.text("Add Item")
+	button1.text("Add Employee")
 	
 	Dim container1 As MiniHtml = MH.Div.up(col12)
 	container1.attr("id", CONTAINER_ID)
@@ -292,7 +292,7 @@ Private Sub ModalAdd As MiniHtml
 	form1.attr("hx-swap", "innerHTML")
 	
 	Dim modalHeader As MiniHtml = MH.Div.up(form1).cls("modal-header")
-	Dim h51 As MiniHtml = MH.H5.up(modalHeader).cls("modal-title").text("Add Item") 'ignore
+	Dim h51 As MiniHtml = MH.H5.up(modalHeader).cls("modal-title").text("Add Employee") 'ignore
 	Dim close1 As MiniHtml = MH.Button.up(modalHeader).attr("type", "button").cls("btn-close").attr("data-bs-dismiss", "modal") 'ignore
 	
 	Dim modalBody As MiniHtml = MH.Div.up(form1).cls("modal-body")
@@ -329,7 +329,7 @@ Private Sub ModalEdit As MiniHtml
 	form1.attr("hx-swap", "innerHTML")
 	
 	Dim modalHeader As MiniHtml = MH.Div.up(form1).cls("modal-header")
-	MH.H5.up(modalHeader).cls("modal-title").text("Edit Item")
+	MH.H5.up(modalHeader).cls("modal-title").text("Edit Employee")
 	MH.Button.up(modalHeader).attr("type", "button").cls("btn-close").attr("data-bs-dismiss", "modal")
 	
 	Dim modalBody As MiniHtml = MH.Div.up(form1).cls("modal-body")
@@ -368,7 +368,7 @@ Private Sub ModalDelete As MiniHtml
 	form1.attr("hx-swap", "innerHTML")
 	
 	Dim modalHeader As MiniHtml = MH.Div.cls("modal-header").up(form1)
-	MH.H5.up(modalHeader).cls("modal-title").text("Delete Item")
+	MH.H5.up(modalHeader).cls("modal-title").text("Delete Employee")
 	MH.Button.up(modalHeader).attr("type", "button").cls("btn-close").attr("data-bs-dismiss", "modal")
 	
 	Dim modalBody As MiniHtml = MH.Div.cls("modal-body").up(form1)
