@@ -101,6 +101,7 @@ Private Sub CheckDatabase
 		Main.DB = MDB
 		
 		' Create new tables after database has already created
+		MDB.ShowExtraLogs = False ' shut up log
 		MDB.Open
 		If MDB.TableExists("tbl_items") = False Then
 			Dim Model1 As CrudModel
@@ -117,6 +118,7 @@ Private Sub CheckDatabase
 			Model3.Initialize
 			Model3.CreateEmployeesTable
 		End If
+		MDB.ShowExtraLogs = True
 	Catch
 		LogError(LastException.Message)
 		LogColor("Error checking database!", COLOR_RED)
