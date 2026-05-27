@@ -1,10 +1,10 @@
 # Pakai Vest
 
-Version: 0.10
+Version: 0.20
 
 Tables and CRUD web forms extension for [Pakai Server v6](https://github.com/pyhoon/pakai-server-b4j) — a B4J web framework built with EndsMeet, MiniORM, MiniHtml, HTMX, and AlpineJS.
 
-> NOTE: This repo is created by AntiGravity Desktop. Use it at your own risk.
+> NOTE: This repo is created by AntiGravity Desktop and still under development. Use it at your own risk.
 
 ## Overview
 
