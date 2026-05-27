@@ -3,7 +3,7 @@ setlocal
 
 if "%~1"=="" (
     echo Usage:
-    echo    extract_excluded.bat file1.bas file2.bas
+    echo    create_excluded.bat file1.bas file2.bas
     pause
     exit /b
 )
