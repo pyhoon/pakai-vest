@@ -17,23 +17,31 @@ Library3=minicss
 Library4=minihtml
 Library5=minijs
 Library6=miniormutils
-Library7=webapiutils
-Library8=vest
-Module1=CrudApiHandler
-Module2=CrudHandler
-Module3=CrudModel
-Module4=CrudView
-Module5=MainView
-Module6=MH
-Module7=ORM
+Library7=vest
+Library8=webapiutils
+Library9=lanyard
+Module1=AuthFilter
+Module10=EmployeeView
+Module11=MainView
+Module12=MH
+Module13=ORM
+Module14=UsersModel
+Module2=AuthHandler
+Module3=AuthView
+Module4=CrudApiHandler
+Module5=CrudHandler
+Module6=CrudModel
+Module7=CrudView
+Module8=EmployeeHandler
+Module9=EmployeeModel
 NumberOfFiles=4
-NumberOfLibraries=8
-NumberOfModules=7
+NumberOfLibraries=9
+NumberOfModules=14
 Version=10.5
 @EndOfDesignText@
 #Region  Project Attributes
 'Product:   Pakai Vest
-'Version:   0.10
+'Version:   0.20
 'License:   MIT License
 'Developer: Poon Yip Hoon (Aeric)
 #CommandLineArgs:
@@ -47,8 +55,8 @@ Version=10.5
 #AdditionalJar: sqlite-jdbc-3.7.2
 #End If
 #Region  Macros
-#Macro: Title, Convert classes, ide://run?File=%PROJECT%\create_excluded.bat
-#Macro: Title, Update Manifest, ide://run?File=%ADDITIONAL%\..\B4X\manifest-writer.jar&Args=%PROJECT%\..&Args=%PROJECT%\..&Args=Version&Args=0.10
+#Macro: Title, Class Templates, ide://run?File=%PROJECT%\create_excluded.bat&Args=..\CrudApiHandler.bas&Args=..\CrudHandler.bas&Args=..\CrudModel.bas&Args=..\CrudView.bas
+#Macro: Title, Update Manifest, ide://run?File=%ADDITIONAL%\..\B4X\manifest-writer.jar&Args=%PROJECT%\..&Args=%PROJECT%\..&Args=Version&Args=0.20
 #Macro: Title, Create B4xLib, ide://run?File=%JAVABIN%\jar.exe&WorkingDirectory=..\&Args=-cMf&Args=..\release\Vest.b4xlib&Args=*.b4x_excluded&Args=Snippets&Args=..\manifest.txt&Args=..\LICENSE.txt
 #Macro: Title, Release folder, ide://run?File=%WINDIR%\SysWOW64\explorer.exe&Args=%PROJECT%\..\release
 #Macro: Title, Copy to AddLibs, ide://run?File=%COMSPEC%&Args=/c&Args=copy&Args=%PROJECT%\..\release\*.b4xlib&Args=%ADDITIONAL%\..\B4X
@@ -78,9 +86,20 @@ Sub AppStart (Args() As String)
 	App.Get("", "CrudHandler")
 	App.Get("/items", "CrudHandler")
 	App.Rest("/hx/items/*", "CrudHandler")
+	App.Get("/employees", "EmployeeHandler")
+	App.Rest("/hx/employees/*", "EmployeeHandler")
 	
 	' For REST API
 	App.Rest("/api/items/*", "CrudApiHandler")
+	'App.Rest("/api/employees/*", "EmployeeApiHandler")
+	
+	' Auth routes
+	App.Get("/login", "AuthHandler")
+	App.Get("/logout", "AuthHandler")
+	App.Get("/register", "AuthHandler")
+	App.Post("/login", "AuthHandler")
+	App.Post("/register", "AuthHandler")
+	App.srvr.AddFilter("/*", "AuthFilter", False)
 	
 	App.Start
 	App.LogStartupMessage

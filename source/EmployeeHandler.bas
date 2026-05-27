@@ -1,22 +1,28 @@
+﻿B4J=true
+Group=Handlers
+ModulesStructureVersion=1
+Type=Class
+Version=10.5
+@EndOfDesignText@
 ' Crud Handler Template
 ' Handles web routes and HTMX endpoints. Customize the routes and model references.
 Sub Class_Globals
 	Private App As EndsMeet
 	Private Path As String
 	Private Method As String
-	Private View As CrudView
-	Private Model As CrudModel
+	Private View As EmployeeView
+	Private Model As EmployeeModel
 	Private Request As ServletRequest
 	Private Response As ServletResponse
 	
 	' Customize route endpoints
-	Private Const ROUTE_PREFIX As String = "/hx/items"
+	Private Const ROUTE_PREFIX As String = "/hx/employees"
 End Sub
 
 Public Sub Initialize
 	App = Main.App
 	View.Initialize
-	Model.Initialize	
+	Model.Initialize
 End Sub
 
 Sub Handle (req As ServletRequest, resp As ServletResponse)
@@ -27,7 +33,7 @@ Sub Handle (req As ServletRequest, resp As ServletResponse)
 	Log($"${Method}: ${Path}"$)
 	
 	' Route URL dispatching
-	If Path = "/" Or Path = "/items" Then
+	If Path = "/employees" Then
 		HandlePage
 	Else If Path = ROUTE_PREFIX & "/table" Then
 		HandleTable
@@ -97,50 +103,50 @@ Private Sub HandleCrudActions
 	Select Method
 		Case "POST"
 			' Create
-			Dim code As String = Request.GetParameter("code")
+			Dim email As String = Request.GetParameter("email")
 			Dim name As String = Request.GetParameter("name")
-			Dim tempprice As String = Request.GetParameter("price")
-			Dim price As Double = IIf(tempprice.Trim = "", 0, tempprice)
+			Dim tempsalary As String = Request.GetParameter("salary")
+			Dim salary As Double = IIf(tempsalary.Trim = "", 0, tempsalary)
 			Dim description As String = Request.GetParameter("description")
 
-			If code = "" Or code.Trim.Length < 2 Then
-				ShowAlert("Item Code must be at least 2 characters long.", "warning")
+			If email = "" Or email.Trim.Length < 2 Then
+				ShowAlert("Employee Email must be at least 2 characters long.", "warning")
 				Return
 			End If
 			
-			' Check code uniqueness
-			Dim Found As Boolean = Model.FindRowByCode(code)
+			' Check Email uniqueness
+			Dim Found As Boolean = Model.FindRowByEmail(email)
 			If Model.Error.IsInitialized Then
 				ShowAlert($"Database error: ${Model.Error.Message}"$, "danger")
 				Return
 			End If
 			If Found Then
-				ShowAlert("Item Code already exists!", "warning")
+				ShowAlert("Employee Email already exists!", "warning")
 				Return
 			End If
 
 			' Save record
-			Model.Create(code, name, price, description)
+			Model.Create(email, name, salary, description)
 			If Model.Error.IsInitialized Then
 				ShowAlert($"Database error: ${Model.Error.Message}"$, "danger")
 				Return
 			End If			
-			ShowToast("Item", "created", "Item created successfully!", "success")
+			ShowToast("Employee", "created", "Employee created successfully!", "success")
 			
 		Case "PUT"
 			' Update
 			Dim id As Int = Request.GetParameter("id")
-			Dim code As String = Request.GetParameter("code")
+			Dim email As String = Request.GetParameter("email")
 			Dim name As String = Request.GetParameter("name")
-			Dim price As Double = Request.GetParameter("price")
+			Dim salary As Double = Request.GetParameter("salary")
 			Dim description As String = Request.GetParameter("description")
 			
-			If code = "" Or code.Trim.Length < 2 Then
-				ShowAlert("Item Code must be at least 2 characters long.", "warning")
+			If email = "" Or email.Trim.Length < 2 Then
+				ShowAlert("Employee email must be at least 2 characters long.", "warning")
 				Return
 			End If
 			If name = "" Or name.Trim.Length < 2 Then
-				ShowAlert("Item Name must be at least 2 characters long.", "warning")
+				ShowAlert("Employee Name must be at least 2 characters long.", "warning")
 				Return
 			End If
 			
@@ -150,27 +156,27 @@ Private Sub HandleCrudActions
 				Return
 			End If
 			If Not(Found) Then
-				ShowAlert("Item not found!", "warning")
+				ShowAlert("Employee not found!", "warning")
 				Return
 			End If
 			
-			Dim CodeConflict As Boolean = Model.FindRowByCodeNotEqualId(code, id)
+			Dim EmailConflict As Boolean = Model.FindRowByEmailNotEqualId(email, id)
 			If Model.Error.IsInitialized Then
 				ShowAlert($"Database error: ${Model.Error.Message}"$, "danger")
 				Return
 			End If
-			If CodeConflict Then
-				ShowAlert("Item Code already exists on another item!", "warning")
+			If EmailConflict Then
+				ShowAlert("Employee Email already exists on another row!", "warning")
 				Return
 			End If
 			
 			' Update record
-			Model.Update(id, code, name, price, description)
+			Model.Update(id, email, name, salary, description)
 			If Model.Error.IsInitialized Then
 				ShowAlert($"Database error: ${Model.Error.Message}"$, "danger")
 				Return
 			End If
-			ShowToast("Item", "updated", "Item updated successfully!", "info")
+			ShowToast("Employee", "updated", "Employee updated successfully!", "info")
 			
 		Case "DELETE"
 			' Delete
@@ -182,7 +188,7 @@ Private Sub HandleCrudActions
 				Return
 			End If
 			If Not(Found) Then
-				ShowAlert("Item not found!", "warning")
+				ShowAlert("Employee not found!", "warning")
 				Return
 			End If
 
@@ -192,7 +198,7 @@ Private Sub HandleCrudActions
 				ShowAlert($"Database error: ${Model.Error.Message}"$, "danger")
 				Return
 			End If
-			ShowToast("Item", "deleted", "Item deleted successfully!", "danger")
+			ShowToast("Employee", "deleted", "Employee deleted successfully!", "danger")
 	End Select
 End Sub
 

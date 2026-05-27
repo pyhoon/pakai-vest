@@ -1,9 +1,3 @@
-B4J=true
-Group=Handlers
-ModulesStructureVersion=1
-Type=Class
-Version=10.3
-@EndOfDesignText@
 ' Crud Api Handler Template
 ' Exposes RESTful API endpoints for the CRUD model (supporting JSON and XML requests).
 Sub Class_Globals

@@ -103,9 +103,19 @@ Private Sub CheckDatabase
 		' Create new tables after database has already created
 		MDB.Open
 		If MDB.TableExists("tbl_items") = False Then
-			Dim Model As CrudModel
-			Model.Initialize
-			Model.CreateItemsTable
+			Dim Model1 As CrudModel
+			Model1.Initialize
+			Model1.CreateItemsTable
+		End If
+		If MDB.TableExists("tbl_users") = False Then
+			Dim Model2 As UsersModel
+			Model2.Initialize
+			Model2.CreateUsersTable
+		End If
+		If MDB.TableExists("tbl_employees") = False Then
+			Dim Model3 As EmployeeModel
+			Model3.Initialize
+			Model3.CreateEmployeesTable
 		End If
 	Catch
 		LogError(LastException.Message)

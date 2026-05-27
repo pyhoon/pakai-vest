@@ -1,3 +1,9 @@
+﻿B4J=true
+Group=Views
+ModulesStructureVersion=1
+Type=Class
+Version=10.5
+@EndOfDesignText@
 ' Crud View Template
 ' Customize this template to modify the UI layout of your CRUD forms.
 Sub Class_Globals
@@ -5,8 +11,8 @@ Sub Class_Globals
 	Private mShowLogout As Boolean
 	
 	' Customize prefix routes and container selectors if needed
-	Private Const ROUTE_PREFIX As String = "/hx/items"
-	Private Const CONTAINER_ID As String = "items-container"
+	Private Const ROUTE_PREFIX As String = "/hx/employees"
+	Private Const CONTAINER_ID As String = "employees-container"
 End Sub
 
 Public Sub Initialize
@@ -37,10 +43,10 @@ Private Sub WriteToCache (Key As String, Value As Object)
 End Sub
 
 Public Sub Show As String
-	Dim CacheName As String = "Items Page"
+	Dim CacheName As String = "Employees Page"
 	If ExistInCache(CacheName) = False Then
 		mShowLogout = True
-		WriteToCache(CacheName, ItemsPage)
+		WriteToCache(CacheName, EmployeesPage)
 	End If
 	Dim page1 As MiniHtml = ReadFromCache(CacheName)
 	Dim doc As MiniHtml
@@ -54,14 +60,14 @@ End Sub
 Public Sub Modal (Action As String, Data As Map) As String
 	Select Action
 		Case "Add"
-			Dim CacheName As String = "Items Add Modal"
+			Dim CacheName As String = "Employees Add Modal"
 			If ExistInCache(CacheName) = False Then
 				WriteToCache(CacheName, ModalAdd)
 			End If
 			Dim modal1 As MiniHtml = ReadFromCache(CacheName)
 			Return modal1.build
 		Case "Edit"
-			Dim CacheName As String = "Items Edit Modal"
+			Dim CacheName As String = "Employees Edit Modal"
 			If ExistInCache(CacheName) = False Then
 				WriteToCache(CacheName, ModalEdit)
 			End If
@@ -73,24 +79,24 @@ Public Sub Modal (Action As String, Data As Map) As String
 			
 			Dim group1 As MiniHtml = modalBody.Child(2)
 			Dim input1 As MiniHtml = group1.Child(1)
-			input1.attr("value", Data.Get("item_code"))
+			input1.attr("value", Data.Get("employee_email"))
 			
 			Dim group2 As MiniHtml = modalBody.Child(3)
 			Dim input2 As MiniHtml = group2.Child(1)
-			input2.attr("value", Data.Get("item_name"))
+			input2.attr("value", Data.Get("employee_name"))
 			
 			Dim group3 As MiniHtml = modalBody.Child(4)
 			Dim input3 As MiniHtml = group3.Child(1)
-			Dim price As String = NumberFormat2(Data.Get("item_price"), 1, 2, 2, False)
-			input3.attr("value", price)
+			Dim salary As String = NumberFormat2(Data.Get("employee_salary"), 1, 2, 2, False)
+			input3.attr("value", salary)
 			
 			Dim group4 As MiniHtml = modalBody.Child(5)
 			Dim input4 As MiniHtml = group4.Child(1)
-			input4.text2(Data.GetDefault("item_description", ""))
+			input4.text2(Data.GetDefault("employee_description", ""))
 			
 			Return modal1.build
 		Case "Delete"
-			Dim CacheName As String = "Items Delete Modal"
+			Dim CacheName As String = "Employees Delete Modal"
 			If ExistInCache(CacheName) = False Then
 				WriteToCache(CacheName, ModalDelete)
 			End If
@@ -99,7 +105,7 @@ Public Sub Modal (Action As String, Data As Map) As String
 			Dim id1 As MiniHtml = modalBody.Child(1)
 			id1.attr("value", Data.Get("id"))
 			Dim p1 As MiniHtml = modalBody.Child(2)
-			p1.text2($"Delete ${Data.Get("item_name")} (${Data.Get("item_code")})?"$)
+			p1.text2($"Delete ${Data.Get("employee_name")} (${Data.Get("employee_email")})?"$)
 			Return modal1.build
 		Case Else
 			Return ""
@@ -117,7 +123,7 @@ Public Sub Toast (info As ToastInfo, data As List) As String
 	Dim div1 As MiniHtml = MH.Div
 	div1.attr("id", CONTAINER_ID)
 	div1.attr("hx-swap-oob", "true")
-	ItemsTableFilled(data).up(div1)
+	EmployeesTableFilled(data).up(div1)
 	Dim script1 As MiniJs
 	script1.Initialize
 	script1.AddCustomEventDispatch("entity:changed", _
@@ -130,10 +136,10 @@ Public Sub Toast (info As ToastInfo, data As List) As String
 End Sub
 
 Public Sub RenderedTable (data As List) As String
-	Return ItemsTableFilled(data).build
+	Return EmployeesTableFilled(data).build
 End Sub
 
-Private Sub ItemsPage As MiniHtml
+Private Sub EmployeesPage As MiniHtml
 	Dim main1 As MainView
 	main1.Initialize
 	main1.LoadContent(ContainerContent)
@@ -144,6 +150,7 @@ Private Sub ItemsPage As MiniHtml
 	
 	' Add extra navbar navigation if needed
 	If mShowLogout Then
+		ItemLink.up(navitem1)
 		LogoutLink.up(navitem1)
 	End If
 	Return page1
@@ -202,27 +209,27 @@ Private Sub GetNavItem (dom As MiniHtml) As MiniHtml
 	Return ulist1
 End Sub
 
-Private Sub ItemsTableFilled (data As List) As MiniHtml
-	Dim CacheName As String = "Items Table"
+Private Sub EmployeesTableFilled (data As List) As MiniHtml
+	Dim CacheName As String = "Employees Table"
 	If ExistInCache(CacheName) = False Then
-		WriteToCache(CacheName, ItemsTable)
+		WriteToCache(CacheName, EmployeesTable)
 	End If
 
-	Dim CacheNameRow As String = "Items Table Row"
+	Dim CacheNameRow As String = "Employees Table Row"
 	If ExistInCache(CacheNameRow) = False Then
-		WriteToCache(CacheNameRow, ItemsTableRow.ConvertToBytes)
+		WriteToCache(CacheNameRow, EmployeesTableRow.ConvertToBytes)
 	End If
 
-	Dim table1 As MiniHtml = ReadFromCache("Items Table")
+	Dim table1 As MiniHtml = ReadFromCache("Employees Table")
 	Dim tbody1 As MiniHtml = table1.Child(1)
 	tbody1.Children.Clear
 	For Each row As Map In data
-		Dim tr1 As MiniHtml = ReadFromCache("Items Table Row")
+		Dim tr1 As MiniHtml = ReadFromCache("Employees Table Row")
 		tr1.Child(0).text2(row.Get("id"))
-		tr1.Child(1).text2(row.Get("item_code"))
-		tr1.Child(2).text2(row.Get("item_name"))
-		tr1.Child(3).text2(NumberFormat2(row.Get("item_price"), 1, 2, 2, True))
-		tr1.Child(4).text2(row.GetDefault("item_description", ""))
+		tr1.Child(1).text2(row.Get("employee_email"))
+		tr1.Child(2).text2(row.Get("employee_name"))
+		tr1.Child(3).text2(NumberFormat2(row.Get("employee_salary"), 1, 2, 2, True))
+		tr1.Child(4).text2(row.GetDefault("employee_description", ""))
 		tr1.Child(5).Child(0).attr("hx-get", ROUTE_PREFIX & "/edit/" & row.Get("id"))
 		tr1.Child(5).Child(1).attr("hx-get", ROUTE_PREFIX & "/delete/" & row.Get("id"))
 		tr1.up(tbody1)
@@ -230,21 +237,21 @@ Private Sub ItemsTableFilled (data As List) As MiniHtml
 	Return table1
 End Sub
 
-Private Sub ItemsTable As MiniHtml
+Private Sub EmployeesTable As MiniHtml
 	Dim table1 As MiniHtml = MH.Table
 	table1.cls("table table-bordered table-hover rounded small")
 	Dim thead1 As MiniHtml = MH.Thead.cls("table-light").up(table1)
 	MH.Th.up(thead1).sty("text-align: right; width: 50px").text("#")
-	MH.Th.up(thead1).text("Code")
+	MH.Th.up(thead1).text("Email")
 	MH.Th.up(thead1).text("Name")
-	MH.Th.up(thead1).sty("text-align: right; width: 100px").text("Price")
+	MH.Th.up(thead1).sty("text-align: right; width: 100px").text("Salary")
 	MH.Th.up(thead1).text("Description")
 	MH.Th.up(thead1).sty("text-align: center; width: 120px").text("Actions")
 	MH.Tbody.up(table1)
 	Return table1
 End Sub
 
-Private Sub ItemsTableRow As MiniHtml
+Private Sub EmployeesTableRow As MiniHtml
 	Dim tr1 As MiniHtml = MH.Tr
 	MH.Td.up(tr1).cls("align-middle").sty("text-align: right")
 	MH.Td.up(tr1).cls("align-middle")
@@ -292,9 +299,9 @@ Private Sub ModalAdd As MiniHtml
 	MH.Div.up(modalBody).attr("id", "modal-messages")
 	
 	Dim group1 As MiniHtml = MH.Div.up(modalBody).cls("form-group mb-2")
-	Dim label1 As MiniHtml = MH.Label.up(group1).text("Code ")
+	Dim label1 As MiniHtml = MH.Label.up(group1).text("Email ")
 	MH.Span.up(label1).cls("text-danger").text("*")
-	MH.Input.up(group1).attr("type", "text").attr("name", "code").cls("form-control").required
+	MH.Input.up(group1).attr("type", "email").attr("name", "email").cls("form-control").required
 	
 	Dim group2 As MiniHtml = MH.Div.up(modalBody).cls("form-group mb-2")
 	Dim label2 As MiniHtml = MH.Label.up(group2).text("Name ")
@@ -302,8 +309,8 @@ Private Sub ModalAdd As MiniHtml
 	MH.Input.up(group2).attr("type", "text").attr("name", "name").cls("form-control").required
 	
 	Dim group3 As MiniHtml = MH.Div.up(modalBody).cls("form-group mb-2")
-	MH.Label.up(group3).text("Price ")
-	MH.Input.up(group3).attr("type", "text").attr("name", "price").cls("form-control")
+	MH.Label.up(group3).text("Salary ")
+	MH.Input.up(group3).attr("type", "text").attr("name", "salary").cls("form-control")
 	
 	Dim group4 As MiniHtml = MH.Div.up(modalBody).cls("form-group mb-2")
 	MH.Label.up(group4).text("Description ")
@@ -330,9 +337,9 @@ Private Sub ModalEdit As MiniHtml
 	MH.Input.up(modalBody).attr("type", "hidden").attr("name", "id")
 	
 	Dim group1 As MiniHtml = MH.Div.up(modalBody).cls("form-group mb-2")
-	Dim label1 As MiniHtml = MH.Label.up(group1).text("Code ")
+	Dim label1 As MiniHtml = MH.Label.up(group1).text("Email ")
 	MH.Span.up(label1).cls("text-danger").text("*")
-	MH.Input.up(group1).attr("type", "text").cls("form-control").attr("name", "code").required
+	MH.Input.up(group1).attr("type", "email").cls("form-control").attr("name", "email").required
 	
 	Dim group2 As MiniHtml = MH.Div.up(modalBody).cls("form-group mb-2")
 	Dim label2 As MiniHtml = MH.Label.up(group2).text("Name ")
@@ -341,8 +348,8 @@ Private Sub ModalEdit As MiniHtml
 	input2.required
 	
 	Dim group3 As MiniHtml = MH.Div.up(modalBody).cls("form-group mb-2")
-	MH.Label.up(group3).text("Price ")
-	MH.Input.up(group3).attr("type", "text").cls("form-control").attr("name", "price")
+	MH.Label.up(group3).text("Salary ")
+	MH.Input.up(group3).attr("type", "text").cls("form-control").attr("name", "salary")
 	
 	Dim group4 As MiniHtml = MH.Div.up(modalBody).cls("form-group mb-2")
 	MH.Label.up(group4).text("Description ")
@@ -400,5 +407,13 @@ Private Sub LogoutLink As MiniHtml
 	Dim a1 As MiniHtml = MH.Anchor.up(li1).cls("nav-link float-end").attr("href", "/logout")
 	MH.Icon.up(a1).cls("bi bi-box-arrow-right me-2")
 	a1.text("Logout")
+	Return li1
+End Sub
+
+Private Sub ItemLink As MiniHtml
+	Dim li1 As MiniHtml = MH.Li.cls("nav-item d-block d-lg-block")
+	Dim a1 As MiniHtml = MH.Anchor.up(li1).cls("nav-link float-end").attr("href", "/")
+	MH.Icon.up(a1).cls("bi bi-box-seam me-2")
+	a1.text("Items")
 	Return li1
 End Sub

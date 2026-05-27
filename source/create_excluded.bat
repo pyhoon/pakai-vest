@@ -3,7 +3,7 @@ setlocal
 
 if "%~1"=="" (
     echo Usage:
-    echo    create_excluded.bat CrudApiHandler.bas.bas CrudHandler.bas CrudModel.bas CrudView.bas
+    echo    extract_excluded.bat file1.bas file2.bas
     pause
     exit /b
 )
@@ -21,12 +21,7 @@ echo    %INPUT%
 echo Output:
 echo    %OUTPUT%
 
-powershell -NoProfile -ExecutionPolicy Bypass -Command ^
-"$found=$false; " ^
-"Get-Content '%INPUT%' | ForEach-Object { " ^
-"    if($found){ $_ } " ^
-"    elseif($_ -match '@EndOfDesignText@'){ $found=$true } " ^
-"} | Set-Content '%OUTPUT%'"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$found=$false; Get-Content '%INPUT%' | ForEach-Object { if($found){ $_ } elseif($_ -match '@EndOfDesignText@'){ $found=$true } } | Set-Content '%OUTPUT%'"
 
 shift
 goto nextfile

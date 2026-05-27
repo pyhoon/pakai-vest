@@ -150,6 +150,7 @@ Private Sub ItemsPage As MiniHtml
 	
 	' Add extra navbar navigation if needed
 	If mShowLogout Then
+		EmployeeLink.up(navitem1)
 		LogoutLink.up(navitem1)
 	End If
 	Return page1
@@ -406,5 +407,13 @@ Private Sub LogoutLink As MiniHtml
 	Dim a1 As MiniHtml = MH.Anchor.up(li1).cls("nav-link float-end").attr("href", "/logout")
 	MH.Icon.up(a1).cls("bi bi-box-arrow-right me-2")
 	a1.text("Logout")
+	Return li1
+End Sub
+
+Private Sub EmployeeLink As MiniHtml
+	Dim li1 As MiniHtml = MH.Li.cls("nav-item d-block d-lg-block")
+	Dim a1 As MiniHtml = MH.Anchor.up(li1).cls("nav-link float-end").attr("href", "/employees")
+	MH.Icon.up(a1).cls("bi bi-people me-2")
+	a1.text("Employee")
 	Return li1
 End Sub
